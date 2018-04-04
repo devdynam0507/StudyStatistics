@@ -1,0 +1,26 @@
+{% extends "elections/base.html" %}
+{% block title %}
+My Statistics
+{% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+<body style="background-color:ivory">
+      <div class="left">
+          <ul class="nav nav-pills nav-stacked">
+            <li class="active">
+                <li><a href="{% url 'statisticsview_math' %}">통계</a></li>
+                <li><a href="{% url 'statisticscalendar' %}">기록쓰기</a></li>
+          </ul>
+      </div>
+      <div class="content">
+          <h1> 옆 메뉴를 클릭해주세요! </h1>
+      </div>
+</body>
+{% else %}
+    <script type="text/javascript">
+      alert('잘못된 접근입니다. \n로그인후 이용해주세요!')
+      window.location.href = '/';
+    </script>
+{% endif %}
+{% endblock %}

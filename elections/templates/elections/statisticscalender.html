@@ -1,0 +1,29 @@
+{% extends 'elections/base.html' %}
+{% load staticfiles %}
+{% block title %}
+날짜 선택
+{% endblock %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'calendar.css' %}" type="text/css">
+</head>
+<body>
+    <div class="month">
+      <ul>
+        <li><span style="font-size:18px">{{ year }}년</span><br>{{ month }}월</li>
+      </ul>
+    </div>
+
+    <ul class="days">
+    {% for day in days %}
+        {% if day == today %}
+            <li><span class="active"><a href="{% url 'statisticsform' %}">{{ day }}</a></span> </li>
+        {% else %}
+            <li>{{ day }}</li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+</body>
+{% endblock %}

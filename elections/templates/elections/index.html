@@ -1,0 +1,15 @@
+{% extends "elections/base.html" %}
+{% load staticfiles %}
+{% block title %}
+기모띠이
+{% endblock %}
+
+{% block content %}
+<body style="background-image:url({% static 'photo2.jpg' %})">
+        <div class="container" style="background-color:powderblue, width: 660px, height: 1000px">
+            <li style="list-style: none"> <h1 id="nanum" style="color:white">나의 공부 기록을보기위한 공부통계 웹!</h1></li>
+            <li style="list-style: none"> <h2 id="nanum" style="color:white"> <em>나의 공부량을 시각화 해드립니다.</em></h2></li>
+        </div>
+</body>
+</html>
+{% endblock %}

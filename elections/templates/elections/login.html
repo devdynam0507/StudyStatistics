@@ -1,0 +1,45 @@
+{% extends "elections/simplebase.html" %}
+{% block title %}
+로그인
+{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <script type="text/javascript">
+          alert('잘못된 접근입니다. \n로그인을 위해서는 로그아웃이 필요합니다.')
+          window.location.href = '/';
+        </script>
+    {% else %}
+    <div class="layer">
+        <div class="container">
+            <div class="panel panel-success">
+                <div class="panel-heading text-center">
+                    <h3>Studystatement.com</h3>
+                </div>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="panel-body">
+                        <div class="form-group has-errors text-danger small">
+                            {{error}}
+                        </div>
+                        <div class="form-group">
+                            {{ form.username }}
+                            <p> </p>
+                            {{ form.password }}
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-primary" style="width=100%">Login</button>
+
+                        <!-- 요기 Post 데이터 처리 다시해야함 -->
+                    </div>
+                </form>
+            </div>
+                <a href="{% url 'join' %}"><h5 style="color: blue;"><i class="fa fa-paper-plane"></i> 회원가입</h5></a>
+        </div>
+    </div>
+    {% endif %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/q.12.4/jquery.min.js"></script>
+
+{% endblock %}

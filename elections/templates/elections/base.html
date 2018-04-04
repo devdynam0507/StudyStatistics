@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <style>
+      @import url(//fonts.googleapis.com/earlyaccess/hanna.css);
+      @import url(//fonts.googleapis.com/earlyaccess/nanumgothiccoding.css)
+      h1 { font-family: 'Hanna', fantasy; }
+      .left {
+          position:absolute;
+          width:200px;
+          height: 50%;
+          margin-top: 30px;
+      }
+      .content {
+          position:relative;
+          width:100%;
+          left:200px;
+          height:50%;
+          margin-top: 50px;
+      }
+
+      #nanum{
+        font-family: 'Hanna', fantasy;
+      }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{% url 'index' %}">StudyStatistics</a>
+            </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{% url 'index' %}">홈</a></li>
+                {% if user.is_active %}
+                <li><a href="{% url 'statistics' %}">내 페이지</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_active %}
+                <li><a href="#">{{ user.username }}</a> </li>
+                <li><a href="{% url 'logout' %}">로그아웃</a> </li>
+                {% else %}
+                <li><a href="{% url 'join' %}">회원가입</a></li>
+                <li><a href="{% url 'login' %}">로그인</a></li>
+                {% endif %}
+            </ul>
+            </div>
+        </div>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+</html>

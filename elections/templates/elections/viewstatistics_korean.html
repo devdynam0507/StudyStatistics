@@ -1,0 +1,82 @@
+{% extends 'elections/base.html' %}
+{% load staticfiles %}
+{% load view_filter %}
+{% block title %}
+Statistics
+{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <head>
+        <link rel="stylesheet" href="{% static 'Nwagon.css' %}" type="text/css">
+        <script src="{% static 'Nwagon.js' %}"></script>
+    </head>
+    <body style="background-color:#FAFAFA">
+          <div class="left">
+              <ul class="nav nav-pills nav-stacked">
+                <li class="active">
+                    <li><a href="{% url 'statisticsview_math' %}">수학</a></li>
+                    <li><a href="{% url 'statisticsview_science' %}">과학</a></li>
+                    <li><a href="{% url 'statisticsview_korean' %}">국어</a></li>
+                    <li><a href="{% url 'statisticsview_english' %}">영어</a></li>
+                    <li><a href="{% url 'statisticsview_all' %}">전체통계</a></li>
+              </ul>
+          </div>
+      <div class="content">
+          <h1> <em>국어 통계</em></h1>
+    <div id="chart71"></div>
+          <h5 id="nanum"><em>단위: 분</em></h5>
+	<script>
+		var options = {
+			'legend':{
+				names: ["{{ weekdays|get_item:0|safe }}", "{{ weekdays|get_item:1|safe }}", "{{ weekdays|get_item:2|safe }}", "{{ weekdays|get_item:3|safe }}",
+				 "{{ weekdays|get_item:4|safe }}", "{{ weekdays|get_item:5|safe }}", "{{ weekdays|get_item:6|safe }}",]
+					},
+			'dataset':{
+				title:'Week stutdy minutes',
+			    /* 해당 날짜로부터 지난주 데이터, 이번주 데이터 비교 */
+				values: [[{{ lastweek|get_korean_data:0|safe }}, {{ calcweek|get_korean_data:0|safe }}],
+				[{{ lastweek|get_korean_data:1|safe }}, {{ calcweek|get_korean_data:1|safe }}],
+				[{{ lastweek|get_korean_data:2|safe }}, {{ calcweek|get_korean_data:2|safe }}],
+				 [{{ lastweek|get_korean_data:3|safe }}, {{ calcweek|get_korean_data:3|safe }}],
+				 [{{ lastweek|get_korean_data:4|safe }}, {{ calcweek|get_korean_data:4|safe }}],
+				 [{{ lastweek|get_korean_data:5|safe }}, {{ calcweek|get_korean_data:5|safe }}],
+				 [{{ lastweek|get_korean_data:6|safe }}, {{ calcweek|get_korean_data:6|safe }}],
+				 ],
+				colorset: ['#0072b2', '#cc79a7'],
+				fields:['지난주', '이번주']
+			},
+			'chartDiv' : 'chart71',
+			'chartType' : 'line',
+			'leftOffsetValue': 40,
+			'bottomOffsetValue': 60,
+			'chartSize' : {width:800, height:300},
+			'minValue' :{{ topdata|get_min_data }},
+			'maxValue' : {{ topdata|get_top_data }}, /* 주간 최대값 */
+			'increment' : {{ increment }},
+			'isGuideLineNeeded' : false//default set to false
+		};
+
+		Nwagon.chart(options);
+	</script>
+          </div>
+          <div class="container">
+              {% if label == 0 %}
+                <h5 id="nanum" style="color:#000000"><i class="glyphicon glyphicon-warning-sign" style="color:#FF0040"> 일주일 평균 국어공부 시간(분): {{ average }}분</i></h5>
+                <h5 id="nanum" style="color:#000000"><i class="glyphicon glyphicon-warning-sign" style="color:#FF0040"> 일주일 평균 국어공부 시간(시): {{ h_average }}</i></h5>
+              {% elif label == 1 %}
+                <h5 id="nanum" style="color:#000000"><i class="glyphicon glyphicon-ok" style="color:#6E6E6E"> 일주일 평균 국어공부 시간(분): {{ average }}분</i></h5>
+                <h5 id="nanum" style="color:#000000"><i class="glyphicon glyphicon-ok" style="color:#6E6E6E"> 일주일 평균 국어공부 시간(시): {{ h_average }}</i></h5>
+              {% elif label == 2 %}
+                <h5 id="nanum" style="color:#000000"><i class="glyphicon glyphicon-thumbs-up" style="color:#01DF01"> 일주일 평균 국어공부 시간(분): {{ average }}분</i></h5>
+                <h5 id="nanum" style="color:#000000"><i class="glyphicon glyphicon-thumbs-up" style="color:#01DF01"> 일주일 평균 국어공부 시간(시): {{ h_average }}</i></h5>
+              {% endif %}
+          </div>
+    </body>
+    {% else %}
+        <script type="text/javascript">
+          alert('잘못된 접근입니다. \n로그인후 이용해주세요!')
+          window.location.href = '/';
+        </script>
+    {% endif %}
+{% endblock %}

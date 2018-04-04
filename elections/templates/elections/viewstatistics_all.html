@@ -1,0 +1,60 @@
+{% extends 'elections/base.html' %}
+{% load staticfiles %}
+{% load view_filter %}
+{% block title %}
+Statistics
+{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <head>
+        <link rel="stylesheet" href="{% static 'Nwagon.css' %}" type="text/css">
+        <script src="{% static 'Nwagon.js' %}"></script>
+    </head>
+    <body style="background-color:#FAFAFA">
+      <div class="left">
+          <ul class="nav nav-pills nav-stacked">
+            <li class="active">
+                <li><a href="{% url 'statisticsview_math' %}">수학</a></li>
+                <li><a href="{% url 'statisticsview_science' %}">과학</a></li>
+                <li><a href="{% url 'statisticsview_korean' %}">국어</a></li>
+                <li><a href="{% url 'statisticsview_english' %}">영어</a></li>
+                <li><a href="{% url 'statisticsview_all' %}">전체통계</a></li>
+          </ul>
+      </div>
+    <div class="content">
+        <h2> All month average datas </h2>
+
+	<div id="chart">
+        <script>
+            var options = {
+                'dataset': {
+                    title: 'Web accessibility status',
+                    values:[{{ calcmonth|get_month_data:'math'|safe }}, {{ calcmonth|get_month_data:'english'|safe }},{{ calcmonth|get_month_data:'science'|safe }},
+                    {{ calcmonth|get_month_data:'korean'|safe }}],
+                    colorset: ['#56b4e9', '#e69f00', '#cc79a7', '#009e73'],
+                    fields: ['수학', '영어', '과학', '국어']
+                },
+                'donut_width' : 100,
+                'core_circle_radius':0,
+                'chartDiv': 'chart',
+                'chartType': 'pie',
+                'chartSize': {width:600, height:300}
+            };
+
+            Nwagon.chart(options);
+        </script>
+        <h5 id="nanum"> Math: {{ calcmonth|get_month_data:'math'|safe }}</h5>
+        <h5 id="nanum"> Science: {{ calcmonth|get_month_data:'science'|safe }}</h5>
+        <h5 id="nanum"> Korean: {{ calcmonth|get_month_data:'korean'|safe }}</h5>
+        <h5 id="nanum"> English: {{ calcmonth|get_month_data:'english'|safe }}</h5>
+    </div>
+      </div>
+
+    {% else %}
+        <script type="text/javascript">
+          alert('잘못된 접근입니다. \n로그인후 이용해주세요!')
+          window.location.href = '/';
+        </script>
+    {% endif %}
+{% endblock %}
